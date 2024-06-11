@@ -1,0 +1,12 @@
+streamlit
+altair
+numpy
+pandas
+random
+time
+PIL
+matplotlib
+base64
+requests
+dotenv
+os
