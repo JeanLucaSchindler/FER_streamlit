@@ -1,31 +1,35 @@
 import streamlit as st
-from altair.vegalite.v4.api import Chart
 
 import numpy as np
 import pandas as pd
 import random
 import time
 from PIL import Image
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import base64
+import cv2
+import ffmpeg
+import tempfile
+
+#from dotenv import load_dotenv
 
 # # Set the background image
-# def set_background(image_path):
-#     with open(image_path, "rb") as image_file:
-#         encoded_string = base64.b64encode(image_file.read()).decode()
+def set_background(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode()
 
-#     css = f"""
-#     <style>
-#     .stApp {{
-#         background-image: url(data:image/png;base64,{encoded_string});
-#         background-size: cover;
-#     }}
-#     </style>
-#     """
-#     st.markdown(css, unsafe_allow_html=True)
+    css = f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/png;base64,{encoded_string});
+        background-size: cover;
+    }}
+    </style>
+    """
+    st.markdown(css, unsafe_allow_html=True)
 
 # Path to your background image
-#background_image_path = '/Users/marinelegall/Downloads/inside-out.jpeg'
+background_image_path = '/Users/marinelegall/Desktop/inside-out-rileys-headquarters.jpeg'
 
 # Set the background
 #set_background(background_image_path)
@@ -65,17 +69,16 @@ st.markdown('<h1 class="title">Designing a Facial Emotion Recognition model</h1>
 # #head_df
 
 
-data = pd.read_csv('/Users/marinelegall/code/marinoulg/FER_Project/FER/raw_data/labels.csv')
-my_random = random.randrange(0,len(data['pth']))
+df = pd.read_csv('raw-data-clean-CLEAN.csv', sep=';')
+# my_random = random.randrange(0,len(df['pth']))
 
 
-labels_df = list(data['label'].unique())
+labels_df = list(df['label'].unique())
 
 """
 Have pictures from batch #1672 appear on screen
 """
-#st.image('/Users/marinelegall/code/marinoulg/FER_Project/FER/#1672-data-set/anger/IMG_20240606_114127.jpg')
-df = pd.read_csv('/Users/marinelegall/code/marinoulg/FER_Project/FER/#1672-data-set/raw-data-wagon-CLEAN.csv', sep=';')
+
 
 def emotions_1672():
 
@@ -90,12 +93,13 @@ def emotions_1672():
     for label in labels_df:
         emotion = df[df['label'] == label].reset_index()
         my_random_emotion = random.choice(emotion.index)
-        image_path = '../../../#1672-data-set/' + emotion.loc[my_random_emotion, 'pth']
+        image_path = '1672-data-set/' + emotion.loc[my_random_emotion, 'pth']
         image = Image.open(image_path)
         current_images.append(image)
         current_captions.append(label)
 
-    while True:
+    button = st.button('Click to predict your emotions')
+    while button == False:
         new_images = []
         new_captions = []
 
@@ -104,7 +108,7 @@ def emotions_1672():
             if random.random() < 0.5 and current_images[i] is not None:  # 50% chance to change the image
                 emotion = df[df['label'] == label].reset_index()
                 my_random_emotion = random.choice(emotion.index)
-                image_path = '../../../#1672-data-set/' + emotion.loc[my_random_emotion, 'pth']
+                image_path = '1672-data-set/' + emotion.loc[my_random_emotion, 'pth']
                 image = Image.open(image_path)
                 new_images.append(image)
                 new_captions.append(label)
@@ -160,7 +164,7 @@ def function_emotion(emotion):
     df_emotion = pd.DataFrame(df[df['label']==emotion]).reset_index()
     df_emotion_index = df_emotion.index
     my_random_df_emotion = random.randrange(df_emotion_index[0], df_emotion_index[-1])
-    image = Image.open('../../#1672-data-set/'+df_emotion['pth'][my_random_df_emotion])
+    image = Image.open('1672-data-set/'+df_emotion['pth'][my_random_df_emotion])
     label = (df_emotion['label'][my_random_df_emotion])
     return image,label
 
@@ -274,10 +278,9 @@ stream_data(_LOREM_IPSUM)
 
 
 
-import streamlit as st
-from PIL import Image
+
 import requests
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 import os
 
 
@@ -328,12 +331,99 @@ import os
 
 # -----------------------------------TESTS------------------------------------------------
 # #have a video (from my computer) displayed on Streamlit
-# video_file = open('/Users/marinelegall/Downloads/VID_20240531_224913.mp4', 'rb')
-# video_bytes = video_file.read()
-# st.video(video_bytes)
+
+
+#video_file = open('/Users/marinelegall/Downloads/VID_20240531_224913.mp4', 'rbU')
+
+video_file = open('/Users/marinelegall/Desktop/VID_20240612_160207.mp4', 'rb')
+video_bytes = video_file.read()
+st.video(video_bytes)
 
 # #allow to drag and drop photo from computer
-# #st.file_uploader(label='Drag/Drop your photo here')
+import requests
+from io import BytesIO
+
+uploaded_image = st.file_uploader(label='Drag/Drop your photo here', type=["jpg", "jpeg", "png"])
+
+if uploaded_image is not None:
+
+
+    image_bytes = uploaded_image.read()
+
+    # Prepare the files dictionary for the request
+    files = {'img': (image_bytes)}
+
+    # Define the FastAPI endpoint URL
+    url = "https://ferimagev3-3fpq7qou5q-ew.a.run.app/upload_image"
+
+    # Make the POST request to the FastAPI endpoint
+    response = requests.post(url, files=files)
+
+    # Display the response from the FastAPI endpoint
+    if response.status_code == 200:
+        # Read the response image
+        response_image = Image.open(BytesIO(response.content))
+
+        # Display the response image
+        st.image(response_image, caption='Processed Image.', width=200)
+    else:
+        st.write("Failed to get response from the server.")
+
+
+uploaded_video = st.file_uploader("Choose a video...", type=["mp4"])
+#uploaded_video.read()
+#st.video(uploaded_video)
+
+if uploaded_video is not None:
+
+    # Prepare the files dictionary for the request
+    files = {'vid': ("uploaded_video.mp4", uploaded_video, 'video/mp4')}
+
+    # Define the FastAPI endpoint URL
+    url = 'https://ferimagev3-3fpq7qou5q-ew.a.run.app/upload_video'
+    # Make the POST request to the FastAPI endpoint
+    response = requests.post(url, files=files)
+    # # Display the response from the FastAPI endpoint
+    # if response.status_code == 200:
+    #     # Read the response image
+    #     response_video = cv2.VideoCapture(BytesIO(response.content))
+
+    #     # Display the response image
+    #     st.video(response_video, caption='Processed video.', width=200)
+    # else:
+    #     st.write("Failed to get response from the server.")
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+    temp_file.write(response.content)
+
+    # Display the temporary MP4 file using st.video()
+    if response.status_code == 200:
+        # Parse the JSON response
+        # video_file = BytesIO(response.content)
+        st.video(temp_file.name)
+
+
+
+        # Extract the download link
+        #download_link = response_json.get("download_link")
+
+    #     if download_link:
+    #         st.markdown(f"[Download Processed Video]({download_link})")
+    #         st.success("Video processed successfully!")
+    #     else:
+    #         st.error("Failed to retrieve download link.")
+    # else:
+    #     st.error("Failed to process the video. Please try again.")
+
+    # # st.write(response.json())
+
+
+
 
 # #allow webcam --> to take a photo
-st.camera_input(label='This is me')
+button_webcam = st.button('Activate webcam')
+if button_webcam==True:
+    st.camera_input(label='Take a picture')
+
+button_desactivate = st.button('Deactivate webcam')
+if button_desactivate == True:
+    button_webcam == False
