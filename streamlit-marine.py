@@ -237,7 +237,7 @@ if uploaded_video is not None:
         "ffmpeg",
         "-y",
         "-i", input_file_xvid,
-        "-vf", f"scale=1280:780",
+        "-vf", "scale=1280:780",
         "-c:v", "libx264",  # H.264 codec
         "-crf", "23",       # Constant Rate Factor (0-51), lower values mean better quality (23 is default)
         "-preset", "medium", # Preset for encoding speed and compression efficiency (options: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow)
