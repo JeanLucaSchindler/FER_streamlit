@@ -2,11 +2,11 @@ streamlit
 altair
 numpy
 pandas
-random
-time
-PIL
+#time
+Pillow
 matplotlib
-base64
+#base64
 requests
-dotenv
-os
+#dotenv
+#os
+# opencv-python
