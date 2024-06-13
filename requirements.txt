@@ -7,6 +7,7 @@ Pillow
 matplotlib
 #base64
 requests
+ffmpeg
 #dotenv
 #os
 # opencv-python
