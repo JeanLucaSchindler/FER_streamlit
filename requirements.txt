@@ -7,8 +7,6 @@ Pillow
 matplotlib
 #base64
 requests
-ffmpeg-python
 #dotenv
 #os
 # opencv-python
-# subprocess
