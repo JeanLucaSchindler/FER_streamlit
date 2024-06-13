@@ -8,7 +8,7 @@ from PIL import Image
 #import matplotlib.pyplot as plt
 import base64
 # import cv2
-# import ffmpeg
+import ffmpeg
 import tempfile
 import requests
 import os
@@ -38,7 +38,7 @@ def set_background(image_path, opacity=0.5):
 background_image_path = 'inside-out-rileys-headquarters.jpeg'
 
 # Set the background with increased transparency (adjust opacity as needed)
-set_background(background_image_path, opacity=1)
+set_background(background_image_path, opacity=0.8)
 
 
 # Display the title
@@ -263,18 +263,18 @@ if uploaded_video is not None:
 
 #allow webcam --> to take a photo
 
-st.markdown("**Take picture with your webcam if you want**", unsafe_allow_html=False)
-if 'webcam_active' not in st.session_state:
-    st.session_state.webcam_active = False
+# st.markdown("**Take picture with your webcam if you want**", unsafe_allow_html=False)
+# if 'webcam_active' not in st.session_state:
+#     st.session_state.webcam_active = False
 
-# Button to activate the webcam
-if st.button('Activate webcam'):
-    st.session_state.webcam_active = True
+# # Button to activate the webcam
+# if st.button('Activate webcam'):
+#     st.session_state.webcam_active = True
 
-# Button to deactivate the webcam
-if st.button('Deactivate webcam'):
-    st.session_state.webcam_active = False
+# # Button to deactivate the webcam
+# if st.button('Deactivate webcam'):
+#     st.session_state.webcam_active = False
 
-# Display the webcam input if activated
-if st.session_state.webcam_active:
-    st.camera_input(label='Take a picture')
+# # Display the webcam input if activated
+# if st.session_state.webcam_active:
+#     st.camera_input(label='Take a picture')
