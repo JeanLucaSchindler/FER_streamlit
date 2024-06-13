@@ -205,7 +205,7 @@ uploaded_video = st.file_uploader(label ="Choose a video 🎞️", type=["mp4"])
 
 if uploaded_video is not None:
 
-    st.write(uploaded_video.type)
+    # st.write(uploaded_video.type)
 
 
     # Prepare the files dictionary for the request
@@ -237,6 +237,7 @@ if uploaded_video is not None:
         "ffmpeg",
         "-y",
         "-i", input_file_xvid,
+        "-vf", f"scale=1280:780",
         "-c:v", "libx264",  # H.264 codec
         "-crf", "23",       # Constant Rate Factor (0-51), lower values mean better quality (23 is default)
         "-preset", "medium", # Preset for encoding speed and compression efficiency (options: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow)
@@ -249,6 +250,8 @@ if uploaded_video is not None:
     # Run FFmpeg command
     subprocess.run(ffmpeg_cmd)
     # print('convertion done to h264')
+
+
 
     st.video(output_file_h264, format="video/mp4")
 
