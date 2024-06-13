@@ -9,5 +9,5 @@ matplotlib
 requests
 #dotenv
 #os
-opencv-python
+# opencv-python
 subprocess
