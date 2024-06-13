@@ -202,7 +202,11 @@ if uploaded_image is not None:
 #Uploading video to the streamlit
 uploaded_video = st.file_uploader(label ="Choose a video 🎞️", type=["mp4"])
 
+
 if uploaded_video is not None:
+
+    st.write(uploaded_video.type)
+
 
     # Prepare the files dictionary for the request
     files = {'vid': ("uploaded_video.mp4", uploaded_video, 'video/mp4')}
