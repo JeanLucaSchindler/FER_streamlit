@@ -67,7 +67,16 @@ set_background(background_image_path, opacity=0.8)
 
 
 # Display the title
-st.markdown('<h1 style="color: white; font-weight: bold; text-align: center;">Facial Emotion Recognition model</h1>', unsafe_allow_html=True)
+st.markdown('<h1 style="color: white; font-weight: bold; text-align: center;">Facial Emotion Recognition model</h4>', unsafe_allow_html=True)
+
+st.markdown('<h4 style="color: white; font-weight: bold; text-align: center;">Making machines more empathetic than humans...🤖💖</h4>', unsafe_allow_html=True)
+st.markdown('<h4 style="color: white; font-weight: bold; text-align: center;">We built a model whose goal is to define people’s emotions when given either a photo or a video.\
+    Try it out for yourself and see if it works!</h4>', unsafe_allow_html=True)
+st.markdown('<h4 style="color: white; font-weight: bold; text-align: center;">PS: we have a 73 percent accuracy 👀</h4>', unsafe_allow_html=True)
+
+
+
+
 
 df = pd.read_csv('raw-data-clean-CLEAN.csv', sep=';')
 # my_random = random.randrange(0,len(df['pth']))
@@ -168,6 +177,25 @@ def get_my_images_and_their_label(labels):
     return my_images, my_labels
 
 
+# st.image("batch_1672_happy_resized.gif", width = 150)
+
+
+gif_urls = [
+    "batch_1672_anger_resized.gif",
+    "batch_1672_fear_resized.gif",
+    "batch_1672_happy_resized.gif",
+    "batch_1672_sad_resized.gif",
+    "batch_1672_neutral_resized.gif",
+    "batch_1672_surprise_resized.gif",
+    "batch_1672_disgust_resized.gif",
+    "batch_1672_contempt_resized.gif",
+]
+
+# Display GIFs in a 2x4 grid
+for i in range(0, len(gif_urls), 4):
+    row_gifs = gif_urls[i:i+4]  # Get 4 GIFs for each row
+    st.image(row_gifs, width=150)
+
 
 
 
@@ -198,10 +226,10 @@ if uploaded_image is not None:
         st.write("Failed to get response from the server.")
 
 
+st.image("Best_team.png")
 
 #Uploading video to the streamlit
 uploaded_video = st.file_uploader(label ="Choose a video 🎞️", type=["mp4"])
-
 
 if uploaded_video is not None:
 
