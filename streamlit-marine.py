@@ -216,10 +216,6 @@ if uploaded_video is not None:
     # Make the POST request to the FastAPI endpoint
     response = requests.post(url, files=files)
 
-    st.write(uploaded_video.type)
-    st.write(response)
-
-
     #
     bytesio_object = BytesIO(response.content)
 
@@ -254,10 +250,6 @@ if uploaded_video is not None:
     # Run FFmpeg command
     subprocess.run(ffmpeg_cmd)
     # print('convertion done to h264')
-
-    st.write(output_file_h264.format)
-
-
 
     st.video(output_file_h264, format="video/mp4")
 
