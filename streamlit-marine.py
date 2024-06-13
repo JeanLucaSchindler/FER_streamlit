@@ -28,7 +28,7 @@ def set_background(image_path, opacity=0.5):
     .stApp {{
         background-image: url('data:image/jpeg;base64,{encoded_string}');
         background-size: cover;
-        background-blend-mode: multiply; /* Adjust blend mode if needed */
+        background-blend-mode: normal; /* Adjust blend mode if needed */
         opacity: {opacity}; /* Adjust opacity level */
     }}
     </style>
