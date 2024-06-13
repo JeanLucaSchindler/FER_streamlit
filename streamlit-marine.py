@@ -17,28 +17,53 @@ import subprocess
 
 
 
-# Set the background image
 def set_background(image_path, opacity=0.5):
+    # Read the image file and encode it to base64
     with open(image_path, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()).decode()
 
+    # Construct the CSS style with the correct data URL based on the image format
     css = f"""
     <style>
     .stApp {{
-        background-image: url(data:image/png;base64,{encoded_string});
+        background-image: url('data:image/jpeg;base64,{encoded_string}');
         background-size: cover;
-        background-blend-mode: multiply;
+        background-blend-mode: multiply; /* Adjust blend mode if needed */
         opacity: {opacity}; /* Adjust opacity level */
     }}
     </style>
     """
     st.markdown(css, unsafe_allow_html=True)
 
-# Path to your background image
+# Path to your background image (change this to your actual image path)
 background_image_path = 'inside-out-rileys-headquarters.jpeg'
 
-# Set the background with increased transparency (adjust opacity as needed)
+# Set background with desired opacity (e.g., 0.5)
 set_background(background_image_path, opacity=0.8)
+
+
+# # Set the background image
+# def set_background(image_path, opacity=0.5):
+#     with open(image_path, "rb") as image_file:
+#         encoded_string = base64.b64encode(image_file.read()).decode()
+
+#     css = f"""
+#     <style>
+#     .stApp {{
+#         background-image: url(data:image/png;base64,{encoded_string});
+#         background-size: cover;
+#         background-blend-mode: multiply;
+#         opacity: {opacity}; /* Adjust opacity level */
+#     }}
+#     </style>
+#     """
+#     st.markdown(css, unsafe_allow_html=True)
+
+# # Path to your background image
+# background_image_path = 'inside-out-rileys-headquarters.jpeg'
+
+# # Set the background with increased transparency (adjust opacity as needed)
+# set_background(background_image_path, opacity=0.8)
 
 
 # Display the title
