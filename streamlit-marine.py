@@ -193,7 +193,7 @@ if uploaded_image is not None:
         response_image = Image.open(BytesIO(response.content))
 
         # Display the response image
-        st.image(response_image, caption='Processed Image.', height=150)
+        st.image(response_image, caption='Processed Image.')
     else:
         st.write("Failed to get response from the server.")
 
