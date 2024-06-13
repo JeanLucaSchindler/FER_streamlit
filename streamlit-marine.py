@@ -15,30 +15,47 @@ import os
 from io import BytesIO
 import subprocess
 
+def set_background_image(image_url):
+    cache_buster = int(time.time())
+    st.markdown(
+        f"""
+        <style>
+        .reportview-container {{
+            background: url('{image_url}?{cache_buster}') center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
+# Set background image from GitHub repository
+background_image_url = 'https://github.com/JeanLucaSchindler/FER_streamlit/blob/main/inside-out-rileys-headquarters.jpeg'
+set_background_image(background_image_url)
 
 # Set the background image
-def set_background(image_path, opacity=0.5):
-    with open(image_path, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read()).decode()
+# def set_background(image_path, opacity=0.5):
+#     with open(image_path, "rb") as image_file:
+#         encoded_string = base64.b64encode(image_file.read()).decode()
 
-    css = f"""
-    <style>
-    .stApp {{
-        background-image: url(data:image/png;base64,{encoded_string});
-        background-size: cover;
-        background-blend-mode: multiply;
-        opacity: {opacity}; /* Adjust opacity level */
-    }}
-    </style>
-    """
-    st.markdown(css, unsafe_allow_html=True)
+#     css = f"""
+#     <style>
+#     .stApp {{
+#         background-image: url(data:image/png;base64,{encoded_string});
+#         background-size: cover;
+#         background-blend-mode: multiply;
+#         opacity: {opacity}; /* Adjust opacity level */
+#     }}
+#     </style>
+#     """
+#     st.markdown(css, unsafe_allow_html=True)
 
-# Path to your background image
-background_image_path = 'inside-out-rileys-headquarters.jpeg'
+# # Path to your background image
+# background_image_path = 'inside-out-rileys-headquarters.jpeg'
 
-# Set the background with increased transparency (adjust opacity as needed)
-set_background(background_image_path, opacity=0.8)
+# # Set the background with increased transparency (adjust opacity as needed)
+# set_background(background_image_path, opacity=0.8)
 
 
 # Display the title
