@@ -14,6 +14,7 @@ import requests
 import os
 from io import BytesIO
 import subprocess
+import time
 
 def set_background_image(image_url):
     cache_buster = int(time.time())
